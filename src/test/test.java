@@ -17,8 +17,10 @@ public class test {
 	
 		int[][] mat2 = Zig_Zag(8);
 		
-		print2d(mat2);
-		
+		Zig_Zag2(mat2);
+		//print2d(mat2);
+		//System.out.println();
+		//zigzag(mat2);
 		
 	}
 	
@@ -49,6 +51,76 @@ public class test {
 			}
 		}
 		return data;
+	}
+	
+	//https://rosettacode.org/wiki/Zig-zag_matrix (a été modifier pour print plutot que remplir)
+	//Print un array en zigzag, array 2d doit etre symétrique
+	public static int[][] Zig_Zag2(int[][] data) {
+		
+		int i = 1;
+		int j = 1;
+		for (int element = 0; element < data.length * data.length; element++) {
+			
+			System.out.print(data[i-1][j-1] + " ");
+			
+			if ((i + j) % 2 == 0) {
+				// Even stripes
+				if (j < data.length)
+					j++;
+				else
+					i += 2;
+				if (i > 1)
+					i--;
+			} else {
+				// Odd stripes
+				if (i < data.length)
+					i++;
+				else
+					j += 2;
+				if (j > 1)
+					j--;
+			}
+		}
+		return data;
+	}
+	
+	
+	
+	public static void zigzag(int matrix [][]){
+		//acMatrix = new int[8][8];
+		 int i = 0, j = 0;
+	        int N = matrix.length;
+	        while (i < N) {
+	            if (i == N - 1 && j == N - 1){
+	                System.out.print(matrix[i][j]);
+	            	//acMatrix[i][j] = matrix[i][j];
+	            }
+	            else
+	            {
+	                System.out.print(matrix[i][j] + "->");
+	                //acMatrix[i][j] = matrix[i][j];
+	            }
+
+	            if (i == N - 1) {
+	                i = j + 1;
+	                j = N - 1;
+	            } else if (j == 0) {
+	                j = i + 1;
+	                i = 0;
+	            } else {
+	                i++;
+	                j--;
+	            }
+	        }
+	        
+//	        for(int n = 0; n < acMatrix.length; n++){
+//				for(int m = 0; m < acMatrix.length; m++){
+//					
+//					System.out.print(acMatrix[n][m] + " , ");
+//				}
+//				System.out.println();
+//			}
+//		
 	}
 
 	public static void diagDown(int mat[][], int position){
