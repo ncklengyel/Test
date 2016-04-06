@@ -83,45 +83,6 @@ public class test {
 		}
 		return data;
 	}
-	
-	
-	
-	public static void zigzag(int matrix [][]){
-		//acMatrix = new int[8][8];
-		 int i = 0, j = 0;
-	        int N = matrix.length;
-	        while (i < N) {
-	            if (i == N - 1 && j == N - 1){
-	                System.out.print(matrix[i][j]);
-	            	//acMatrix[i][j] = matrix[i][j];
-	            }
-	            else
-	            {
-	                System.out.print(matrix[i][j] + "->");
-	                //acMatrix[i][j] = matrix[i][j];
-	            }
-
-	            if (i == N - 1) {
-	                i = j + 1;
-	                j = N - 1;
-	            } else if (j == 0) {
-	                j = i + 1;
-	                i = 0;
-	            } else {
-	                i++;
-	                j--;
-	            }
-	        }
-	        
-//	        for(int n = 0; n < acMatrix.length; n++){
-//				for(int m = 0; m < acMatrix.length; m++){
-//					
-//					System.out.print(acMatrix[n][m] + " , ");
-//				}
-//				System.out.println();
-//			}
-//		
-	}
 
 	public static void diagDown(int mat[][], int position){
 		
