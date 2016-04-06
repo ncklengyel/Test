@@ -23,6 +23,7 @@ public class test {
 	}
 	
 	//https://rosettacode.org/wiki/Zig-zag_matrix
+	//Rempli une matrice 2d symétrique en zizag partant de 0 a int size
 	public static int[][] Zig_Zag(final int size) {
 		int[][] data = new int[size][size];
 		int i = 1;
