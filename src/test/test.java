@@ -84,46 +84,7 @@ public class test {
 		return data;
 	}
 
-	public static void diagDown(int mat[][], int position){
-		
-		int j = position;
-		
-		for (int i = 0; i < position+1; i++) {
-				
-				System.out.print(mat[i][j]+" ");
-				j=j-1;
-			
-		}
-		
-		
-	}
-	
-	public static void diagUp(int mat[][], int position) {
 
-		if (position % 2 == 0) {
-
-			int j = 0;
-
-			for (int i = position; i >= 0; i--) {
-
-				System.out.print(mat[i][j] + " ");
-				j = j + 1;
-
-			}
-
-		}else{
-			
-			int j = position;
-			
-			for (int i = 0; i < mat.length-position; i++) {
-				
-				System.out.print(mat[j][i] + " ");
-				j = j - 1;
-			}
-			
-		}
-
-	}
 	
 	public static void print2d(int[][] mat){
 		
