@@ -19,31 +19,25 @@ public class test {
 		int[] mat1D = {9,5,6,0,0,0,0,0,2,3,4,0,9,8,0,0,6,6,6,0,0,0,0,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 		
 	
-		int[][] mat2 = Zig_Zag(8);
-		
-		//System.out.println(numberOfZeros(mat1D, 10));
 
-		//System.out.println(indexOfEOB(mat1D));
-
-		//print2d(mat2);
-		//System.out.println();
-		//zigzag(mat2);
+		int[][][] image = PPMReaderWriter.readPPMFile("/Users/am37580/lena.ppm");
 		
-		//System.out.println(listAC(mat1D).toString());
+		int height = image[0].length;
+		int width = image[0][0].length;
 		
-		ArrayList<int[]> listAC = listAC(mat1D);
-		//Entropy e = new Entropy();
-		//e.writeAC(int runlength, int value)
-		for(int[] temp : listAC){
-			
-			for (int i = 0; i < temp.length; i++) {
-				System.out.print(temp[i]+" ");
-			}
-			System.out.println();
-			
-		}
+		image = rgbToYUV(image);
+		
+		ArrayList<int[][]> list8x8 = getListEightByEight(image);
+		
+		image = getImageFromList8x8(list8x8, height, width);
+		
+		image = yuvToRGB(image);
+		
+		PPMReaderWriter.writePPMFile("/Users/am37580/test.jpg", image);
 		
 	}
+	
+
 	
 	//https://rosettacode.org/wiki/Zig-zag_matrix
 	//Rempli une matrice 2d symétrique en zizag partant de 0 a int size
@@ -329,6 +323,167 @@ public class test {
 		}
 
 		return list2Dmatrix;
+
+	}
+	
+	public static int[][][] getImageFromList8x8(ArrayList<int[][]> list8x8, int height, int width) {
+
+		int[][][] image = new int [3][height][width];
+		
+		for (int i = 0; i < list8x8.size()-1; i++) {
+			
+			if (i<=(list8x8.size()/3)-1) {
+				
+				for (int j = 0; j < height/8; j=j+8) {
+					for (int k = 0; k < width/8; k=k+8) {
+						
+						System.out.println(list8x8.get(i).length);
+						System.out.println(i);
+						System.out.println(j+" "+k);
+						putEightByEight(list8x8.get(i), height, width, 0, image);
+						
+						
+					}
+				}
+				
+			}else if (i>(list8x8.size()/3)-1 && i<=(list8x8.size()/3*2)-1) {
+				
+				for (int j = 0; j < height/8; j=j+8) {
+					for (int k = 0; k < width/8; k=k+8) {
+						
+						putEightByEight(list8x8.get(i), height, width, 1, image);
+						
+					}
+				}
+				
+			}else{
+				
+				for (int j = 0; j < height/8; j=j+8) {
+					for (int k = 0; k < width/8; k=k+8) {
+						
+						putEightByEight(list8x8.get(i), height, width, 2, image);
+						
+					}
+				}
+				
+			}
+			
+		}
+		
+		return image;
+
+
+	}
+	
+	public static int[][][] putEightByEight(int[][] matrix8x8, int offsetV, int offsetH, int color,int[][][] image) {
+
+		int lenght = 8;
+
+
+		for (int i = 0; i < lenght; i++) {
+
+			for (int j = 0; j < lenght; j++) {
+
+				image[color][offsetV + i][offsetH+j] = matrix8x8[i][j];
+
+			}
+
+		}
+
+		return image;
+
+	}
+	
+	public static int[][][] rgbToYUV(int[][][] matRGB) {
+
+		int imageHeight = matRGB[0].length;
+		int imageWidth = matRGB[0][0].length;
+
+		int[][][] matYUV = new int[3][imageHeight][imageWidth];
+
+		// Valeurs pour convertion
+		int constante = 128;
+
+		double yr = 0.299;
+		double yg = 0.587;
+		double yb = 0.114;
+
+		double cbr = -0.168736;
+		double cbg = 0.331264;
+		double cbb = 0.5;
+
+		double crr = 0.5;
+		double crg = 0.418688;
+		double crb = 0.081312;
+
+		for (int i = 0; i < imageHeight; i++) {
+
+			for (int j = 0; j < imageWidth; j++) {
+
+				matYUV[0][i][j] = (int) (yr * matRGB[0][i][j] + yg * matRGB[1][i][j] + yb * matRGB[2][i][j]);
+
+				matYUV[1][i][j] = (int) (cbr * matRGB[0][i][j] - cbg * matRGB[1][i][j] + cbb * matRGB[2][i][j]
+						+ constante);
+
+				matYUV[2][i][j] = (int) (crr * matRGB[0][i][j] - crg * matRGB[1][i][j] - crb * matRGB[2][i][j]
+						+ constante);
+			}
+
+		}
+
+		return matYUV;
+
+	}
+	
+	public static int[][][] yuvToRGB(int[][][] matYUV) {
+
+		int imageHeight = matYUV[0].length;
+		int imageWidth = matYUV[0][0].length;
+
+		int[][][] matRGB = new int[3][imageHeight][imageWidth];
+
+		// Formules prisent de :
+		// http://softpixel.com/~cwright/programming/colorspace/yuv/
+		for (int i = 0; i < imageHeight; i++) {
+			for (int j = 0; j < imageWidth; j++) {
+
+				int[] matTemp = new int[3];
+
+				// Regle le probleme du noir/bleu
+				// Quand y = 0 ca fuck tout alors on met 1 a la place ca semble
+				// régler le probleme
+				if (matYUV[PPMReaderWriter.Y][i][j] == 0) {
+					matYUV[PPMReaderWriter.Y][i][j] = 1;
+				}
+
+				matTemp[0] = (int) (matYUV[PPMReaderWriter.Y][i][j] + 1.4075 * (matYUV[PPMReaderWriter.V][i][j] - 128));
+				matTemp[1] = (int) (matYUV[PPMReaderWriter.Y][i][j] - 0.3455 * (matYUV[PPMReaderWriter.U][i][j] - 128)
+						- (0.7169 * (matYUV[PPMReaderWriter.V][i][j] - 128)));
+				matTemp[2] = (int) (matYUV[PPMReaderWriter.Y][i][j] + 1.78409 * (matYUV[PPMReaderWriter.U][i][j] - 128));
+				// 1.17790 valeur qui fonctionnait pas
+				// 1.78409 Ceci est la bonne valeur je l'ai calculer avec la
+				// TI(entk ca marche bien a date)
+
+				for (int ii = 0; ii < matTemp.length; ii++) {
+
+					if (matTemp[ii] > 255) {
+						matTemp[ii] = 255;
+					}
+
+					if (matTemp[ii] < 0) {
+						matTemp[ii] = 0;
+					}
+
+				}
+
+				matRGB[PPMReaderWriter.R][i][j] = matTemp[0];
+				matRGB[PPMReaderWriter.G][i][j] = matTemp[1];
+				matRGB[PPMReaderWriter.B][i][j] = matTemp[2];
+
+			}
+		}
+
+		return matRGB;
 
 	}
 
