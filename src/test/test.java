@@ -29,9 +29,9 @@ public class test {
 		
 		ArrayList<int[][]> list8x8 = getListEightByEight(image);
 		
-		image = getImageFromList8x8(list8x8, height, width);
+		int[][][] image2 = getImageFromList8x8(list8x8, height, width);
 		
-		image = yuvToRGB(image);
+		image = yuvToRGB(image2);
 		
 		PPMReaderWriter.writePPMFile("/Users/am37580/test.jpg", image);
 		
@@ -328,40 +328,48 @@ public class test {
 	
 	public static int[][][] getImageFromList8x8(ArrayList<int[][]> list8x8, int height, int width) {
 
+		int premierTier = list8x8.size()/3;
+		int deuxiemeTier = 2 * premierTier;
+		
+		System.out.println("SIZE:"+list8x8.size());
+		System.out.println("1/3: "+premierTier);
+		System.out.println("2/3: "+deuxiemeTier);
+		
 		int[][][] image = new int [3][height][width];
 		
 		for (int i = 0; i < list8x8.size()-1; i++) {
 			
-			if (i<=(list8x8.size()/3)-1) {
-				
-				for (int j = 0; j < height/8; j=j+8) {
-					for (int k = 0; k < width/8; k=k+8) {
+			if (i<=(premierTier)-1) {
+				int count = 0;
+				for (int j = 0; j < height; j=j+8) {
+					for (int k = 0; k < width; k=k+8) {
 						
-						System.out.println(list8x8.get(i).length);
-						System.out.println(i);
-						System.out.println(j+" "+k);
-						putEightByEight(list8x8.get(i), height, width, 0, image);
-						
+						putEightByEight(list8x8.get(count), j, k, 0, image);
+						count++;
 						
 					}
 				}
 				
-			}else if (i>(list8x8.size()/3)-1 && i<=(list8x8.size()/3*2)-1) {
+			}else if (i>(premierTier)-1 && i<=(deuxiemeTier)-1) {
 				
-				for (int j = 0; j < height/8; j=j+8) {
-					for (int k = 0; k < width/8; k=k+8) {
+				int count = premierTier;
+				for (int j = 0; j < height; j=j+8) {
+					for (int k = 0; k < width; k=k+8) {
 						
-						putEightByEight(list8x8.get(i), height, width, 1, image);
-						
+						putEightByEight(list8x8.get(count), j, k, 1, image);
+						count++;
 					}
 				}
 				
-			}else{
+			}else if (i>deuxiemeTier) {
 				
-				for (int j = 0; j < height/8; j=j+8) {
-					for (int k = 0; k < width/8; k=k+8) {
+				int count = deuxiemeTier;
+				
+				for (int j = 0; j < height; j=j+8) {
+					for (int k = 0; k < width; k=k+8) {
 						
-						putEightByEight(list8x8.get(i), height, width, 2, image);
+						putEightByEight(list8x8.get(count), j, k, 2, image);
+						count++;
 						
 					}
 				}
@@ -384,7 +392,9 @@ public class test {
 
 			for (int j = 0; j < lenght; j++) {
 
+				
 				image[color][offsetV + i][offsetH+j] = matrix8x8[i][j];
+				
 
 			}
 
