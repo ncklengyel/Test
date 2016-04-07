@@ -16,7 +16,7 @@ public class test {
 					 {22,35,199,200,191,187,187,175},
 					 {36,200,200,200,188,185,187,186}};
 		
-		int[] mat1D = {6,2,0,0,15,0,0,29,0,1,0,0,0,0,0,0,0,0,1};
+		int[] mat1D = {9,5,6,0,0,0,0,0,2,3,4,0,9,8,0,0,6,6,6,0,0,0,0,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 		
 	
 		int[][] mat2 = Zig_Zag(8);
@@ -202,8 +202,8 @@ public class test {
 				
 				int[] arrayAC2 = new int [2];
 				arrayAC2[0] = numberOfZeros(mat, i);
-				arrayAC2[1] = mat[arrayAC2[0]];
-				i=i+arrayAC2[0];
+				arrayAC2[1] = mat[i+arrayAC2[0]];
+				i=i+numberOfZeros(mat, i);
 				listAc.add(arrayAC2);
 
 			}
