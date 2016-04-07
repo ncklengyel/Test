@@ -242,5 +242,27 @@ public class test {
 		return numZero;
 		
 	}
+	
+
+	
+	//pas tester encore
+	public static boolean isArrayIdentical(int[] mat1, int[] mat2){
+		
+		if (mat1.length!=mat2.length) {
+			return false;
+		}
+		
+		boolean identical = true;
+		
+		for (int i = 0; i < mat1.length; i++) {
+			if (mat1[i]!=mat2[i]) {
+				identical = false;
+				break;
+			}
+		}
+		
+		return identical;
+		
+	}
 
 }
