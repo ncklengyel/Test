@@ -32,7 +32,8 @@ public class test {
 		//System.out.println(listAC(mat1D).toString());
 		
 		ArrayList<int[]> listAC = listAC(mat1D);
-		
+		//Entropy e = new Entropy();
+		//e.writeAC(int runlength, int value)
 		for(int[] temp : listAC){
 			
 			for (int i = 0; i < temp.length; i++) {
@@ -46,7 +47,7 @@ public class test {
 	
 	//https://rosettacode.org/wiki/Zig-zag_matrix
 	//Rempli une matrice 2d symétrique en zizag partant de 0 a int size
-	public static int[][] Zig_Zag(final int size) {
+	public static int[][] Zig_Zag(int size) {
 		int[][] data = new int[size][size];
 		int i = 1;
 		int j = 1;
