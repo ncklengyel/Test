@@ -272,5 +272,64 @@ public class test {
 		return identical;
 		
 	}
+	
+	/**
+	 * 
+	 * Classe qui permet de returner une matrice 2d 8X8 d'une image en array3D.
+	 * Les point de depart commence en haut a gauche. Par exemple, si les
+	 * offsetV et offetH == 0. l'array 2d sera créé à partir de ce point, il
+	 * parcourera 8 element horizontal et 8 element vertical de l'array3D et
+	 * retournera les valeurs dans un array 2D.
+	 * 
+	 * @param imageMatrix
+	 *            L'array 3D de l'image
+	 * @param offsetV
+	 *            Le point de départ vertical
+	 * @param offsetH
+	 *            Le point de départ horizontal
+	 * @param color
+	 *            La couleur sur laquelle en veut effectuer notre array 2D (0 =
+	 *            R ou Y, 1 = G ou U,...)
+	 * @return
+	 */
+	public static int[][] getEightByEight(int[][][] imageMatrix, int offsetV, int offsetH, int color) {
+
+		int lenght = 8;
+
+		int[][] eightByEghtMatrix = new int[lenght][lenght];
+
+		for (int i = 0; i < lenght; i++) {
+
+			for (int j = 0; j < lenght; j++) {
+
+				eightByEghtMatrix[i][j] = imageMatrix[color][offsetV + i][offsetH + j];
+
+			}
+
+		}
+
+		return eightByEghtMatrix;
+
+	}
+
+	public static ArrayList<int[][]> getListEightByEight(int[][][] imageMatrix) {
+
+		ArrayList<int[][]> list2Dmatrix = new ArrayList<>();
+
+		for (int i = 0; i < imageMatrix.length; i++) {
+
+			for (int j = 0; j < imageMatrix[0].length; j = j + 8) {
+
+				for (int k = 0; k < imageMatrix[0][0].length; k = k + 8) {
+
+					list2Dmatrix.add(getEightByEight(imageMatrix, j, k, i));
+
+				}
+			}
+		}
+
+		return list2Dmatrix;
+
+	}
 
 }
