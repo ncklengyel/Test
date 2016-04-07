@@ -75,8 +75,8 @@ public class test {
 	}
 	
 	//https://rosettacode.org/wiki/Zig-zag_matrix (a été modifier pour print plutot que remplir)
-	//Print un array en zigzag, array 2d doit etre symétrique
-	public static void  Zig_Zag2(int[][] data) {
+	//Print un array2D en zigzag, array 2d doit etre symétrique
+	public static void  printZig_Zag(int[][] data) {
 		
 		int i = 1;
 		int j = 1;
@@ -105,7 +105,14 @@ public class test {
 
 	}
 	
-	public static int[] Zig_ZagtoArray(int[][] data) {
+	/*
+	 * rempli un array 1D en zigzagant la matrice 2D
+	 * ensuite returne le array 1D
+	 * 
+	 * Grandement inspiré de cette source
+	 * source: https://rosettacode.org/wiki/Zig-zag_matrix
+	 */
+	public static int[] zig_ZagMatrixToArray(int[][] data) {
 		
 		int[] mat = new int [data.length*data.length];
 		
