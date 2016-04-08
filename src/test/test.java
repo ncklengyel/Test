@@ -181,18 +181,28 @@ public class test {
 		return mat;
 
 	}
-	
+	/**
+	 * 
+	 *Not working
+	 */
 	public static int[][] zig_ZagArrayToMatrix(int[] data) {
 		
 		int[][] mat = new int [8][8];
 		
 		int i = 1;
 		int j = 1;
+		int c = 1;
 		
 		for (int element = 0; element < 64; element++) {
-			//System.out.println(element);
-			mat[i-1][j-1] = data[element];
-			System.err.println((i-1)+(j-1));
+			
+			if (element<=8) {
+				mat[i-1][j-1] = data[element];
+			}else{
+			
+			}
+			
+			
+			System.out.println((i-1)+(j-1));
 			if ((i + j) % 2 == 0) {
 				// Even stripes
 				if (j < data.length)
@@ -201,6 +211,8 @@ public class test {
 					i += 2;
 				if (i > 1)
 					i--;
+				
+				
 			} else {
 				// Odd stripes
 				if (i < data.length)
@@ -209,8 +221,15 @@ public class test {
 					j += 2;
 				if (j > 1)
 					j--;
+				
+				
 			}
+			
 		}
+		
+			
+			
+	
 		
 		return mat;
 
