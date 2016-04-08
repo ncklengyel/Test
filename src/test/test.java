@@ -16,11 +16,46 @@ public class test {
 					 {22,35,199,200,191,187,187,175},
 					 {36,200,200,200,188,185,187,186}};
 		
-		int[] mat1D = {9,5,6,0,0,0,0,0,2,3,4,0,9,8,0,0,6,6,6,0,0,0,0,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+		int[] mat1D = {1,1,1,1,1,1,1,1,1,1,1};
 		
+		ArrayList<int[]> listAC = new ArrayList<>();
+		
+		
+		int[] ac1 = {2,7};
+		
+		int[] ac2 = {2,7};
+		
+		int[] ac3 = {2,7};
+		int[] ac4 = {0,7};
+		int[] ac5 = {5,7};
+		int[] ac6 = {46,9};
+		//int[] ac7 = {5555555,9};
+		
+		System.out.println(isArrayIdentical(ac2, ac3));
+		
+		listAC.add(ac1);
+		listAC.add(ac2);
+		listAC.add(ac3);
+		listAC.add(ac4);
+		listAC.add(ac5);
+		listAC.add(ac6);
+		//listAC.add(ac7);
+		
+		for(int[] temp : listAC){
+			
+			print1D(temp);
+			System.out.println();
+			
+		}
+		
+		print1D(mat1D);
+		System.out.println();
+		
+		
+		print1D(arrayFromListAC(listAC));
 	
 
-		int[][][] image = PPMReaderWriter.readPPMFile("/Users/am37580/lena.ppm");
+		/*int[][][] image = PPMReaderWriter.readPPMFile("/Users/am37580/lena.ppm");
 		
 		int height = image[0].length;
 		int width = image[0][0].length;
@@ -34,7 +69,7 @@ public class test {
 		image = yuvToRGB(image2);
 		
 		PPMReaderWriter.writePPMFile("/Users/am37580/test.jpg", image);
-		
+		*/
 	}
 	
 
@@ -494,6 +529,102 @@ public class test {
 		}
 
 		return matRGB;
+
+	}
+	
+	public static ArrayList<int[]> makeListArray64(){
+		
+		
+		ArrayList<int[]> listArray64 = new ArrayList<>();
+		ArrayList<int[]> listCoupleAC = new ArrayList<>();
+		
+		
+		
+		
+		while(Entropy.readAC()!=null){
+		
+			
+			int counter = 0;
+			
+			while (counter!=64 || Entropy.readAC()!=null) {
+				
+				int[] coupleAc = Entropy.readAC();
+				
+				if (coupleAc[1]==0) {
+					break;
+				}
+				
+				listCoupleAC.add(coupleAc);
+				counter += coupleAc[0]+1;
+				
+			}
+			
+			listArray64.add(arrayFromListAC(listCoupleAC));
+			listCoupleAC.clear();
+			
+		}
+		
+		return listArray64;
+
+		
+	}
+	
+	public static int[] arrayFromListAC(ArrayList<int[]> listAC){
+		
+
+		int[] array = new int [64];
+		
+		int[] eob = {0,0};
+		
+		int index = 0;
+
+		for (int i = 0; i < listAC.size(); i++) {
+			
+			if (!isArrayIdentical(listAC.get(i), eob)) {
+		
+				index = index + listAC.get(i)[0]+1;
+				array[index] = listAC.get(i)[1];
+				
+			}else{
+				
+				System.out.println("Break");
+				break;
+				
+			}
+			
+		}
+		
+		return array;
+		
+	}
+	
+	
+	/**
+	 * Add des zéros a partir d'un index dans un array
+	 * @param mat
+	 * @param index
+	 * @param numberOfZeros
+	 * @return
+	 */
+	public static int[] addZerosToArray(int[] mat, int index, int numberOfZeros) {
+
+		int lenght = index + numberOfZeros;
+
+		if (numberOfZeros <= mat.length - index && numberOfZeros>0) {
+
+			for (int i = index; i < lenght; i++) {
+
+				mat[i] = 0;
+
+			}
+
+		} else {
+
+			System.out.println("Out of bounds");
+
+		}
+
+		return mat;
 
 	}
 
