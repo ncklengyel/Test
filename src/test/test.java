@@ -6,29 +6,37 @@ public class test {
 
 	public static void main(String[] args) {
 		
-		int[][] mat = 
-					{{1,2,6,7,15,16,28,29},
-					 {3,5,8,14,17,27,30,175},
-					 {4,9,13,18,26,31,185,175},
-					 {10,12,19,25,32,187,187,187},
-					 {11,20,24,33,195,188,187,175},
-					 {21,23,34,200,200,190,187,175},
-					 {22,35,199,200,191,187,187,175},
-					 {36,200,200,200,188,185,187,186}};
+		int[][] zigzag = Zig_Zag(8);
+		
+		print2d(zigzag);
+		
+		int[] zigzag1D = zig_ZagMatrixToArray(zigzag);
+		
+		System.out.println();
+		
+		print1D(zigzag1D);
+		
+		System.out.println();
+		
+		zigzag = zig_ZagArrayToMatrix(zigzag1D);
+		
+		print2d(zigzag);
+		
+		System.exit(0);
 		
 		int[] mat1D = {1,1,1,1,1,1,1,1,1,1,1};
 		
 		ArrayList<int[]> listAC = new ArrayList<>();
 		
 		
-		int[] ac1 = {2,7};
+		int[] ac1 = {2,4};
 		
-		int[] ac2 = {2,7};
+		int[] ac2 = {0,5};
 		
-		int[] ac3 = {2,7};
-		int[] ac4 = {0,7};
-		int[] ac5 = {5,7};
-		int[] ac6 = {46,9};
+		int[] ac3 = {0,6};
+		int[] ac4 = {3,7};
+		int[] ac5 = {0,8};
+		int[] ac6 = {1,9};
 		//int[] ac7 = {5555555,9};
 		
 		System.out.println(isArrayIdentical(ac2, ac3));
@@ -53,7 +61,7 @@ public class test {
 		
 		
 		print1D(arrayFromListAC(listAC));
-	
+		System.exit(0);
 
 		/*int[][][] image = PPMReaderWriter.readPPMFile("/Users/am37580/lena.ppm");
 		
@@ -151,6 +159,40 @@ public class test {
 			
 			mat[element] = data[i-1][j-1];
 			
+			if ((i + j) % 2 == 0) {
+				// Even stripes
+				if (j < data.length)
+					j++;
+				else
+					i += 2;
+				if (i > 1)
+					i--;
+			} else {
+				// Odd stripes
+				if (i < data.length)
+					i++;
+				else
+					j += 2;
+				if (j > 1)
+					j--;
+			}
+		}
+		
+		return mat;
+
+	}
+	
+	public static int[][] zig_ZagArrayToMatrix(int[] data) {
+		
+		int[][] mat = new int [8][8];
+		
+		int i = 1;
+		int j = 1;
+		
+		for (int element = 0; element < 64; element++) {
+			//System.out.println(element);
+			mat[i-1][j-1] = data[element];
+			System.err.println((i-1)+(j-1));
 			if ((i + j) % 2 == 0) {
 				// Even stripes
 				if (j < data.length)
